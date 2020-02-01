@@ -32,7 +32,10 @@ router.post("/register", (req, res) => {
     .catch(err => {
       res
         .status(500)
-        .json({ message: "could not register with provided details" });
+        .json({
+          message: "could not register with provided details",
+          error: err
+        });
     });
 });
 

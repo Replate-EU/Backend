@@ -13,7 +13,7 @@ const Users = require("../data/users-model");
 // });
 
 router.get("/:id", (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id, 10);
   Users.getById(id)
     .then(user => {
       res.status(200).json(user);
@@ -24,7 +24,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id, 10);
   Users.update(id)
     .then(data => {
       res.status(200).json(data);
@@ -34,7 +34,8 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (re9, res) => {
+router.delete("/:id", (req, res) => {
+  const id = req.params.id;
   Users.remove(id)
     .then(deleted => {
       res.status(200).json(deleted);
