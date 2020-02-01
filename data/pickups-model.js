@@ -17,7 +17,7 @@ function getByUserId(user_id) {
   //all claimed pickups if volunteer
   return pickups()
     .where({ business_id: user_id })
-    .orWhere({ volunteer_id: user_id })
+    .orWhere({ claimed_by: user_id })
     .then(pickups => pickups.map(pickupConvert));
 }
 

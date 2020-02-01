@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 });
 
 //returns pickup where({id})
-router.get("/:id", (req, res) => {
+/* router.get("/:id", (req, res) => {
   const id = req.params.id;
   Pickups.getById(id)
     .then(pickup => {
@@ -23,7 +23,7 @@ router.get("/:id", (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "could not get pickup" });
     });
-});
+}); */
 
 router.post("/", (req, res) => {
   const user_id = req.decodedToken.sub;
@@ -56,7 +56,7 @@ router.get("/me", (req, res) => {
       res.status(200).json(pickups);
     })
     .catch(err => {
-      res.status(500).json({ message: "could not get pickups" });
+      res.status(500).json(/* { message: "could not get pickups" } */err);
     });
 });
 
