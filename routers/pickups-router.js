@@ -25,6 +25,19 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+  const user_id = req.decodedToken.sub;
+  let pickup = req.body;
+  pickup.business_id = user_id;
+  Pickups.insert(pickup)
+    .then(saved => {
+      res.status(200).json(saved);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "could not create pickup" });
+    });
+});
+
 // router.get("/available", (req, res) => {
 //   Placeholder.findNotCompleted()
 //     .then(pickups => {
