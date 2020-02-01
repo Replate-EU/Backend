@@ -13,7 +13,7 @@ const Users = require("../data/users-model");
 // });
 
 router.get("/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
+  const id = req.params.id;
   Users.getById(id)
     .then(user => {
       res.status(200).json(user);
@@ -24,8 +24,9 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  Users.update(id)
+  const id = req.params.id;
+  const user = req.body;
+  Users.update(user, id)
     .then(data => {
       res.status(200).json(data);
     })
