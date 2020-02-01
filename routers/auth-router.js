@@ -2,7 +2,7 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const Placeholder = { add, findBy };
+const Users = require("../data/users-model");
 
 function createToken(user) {
   const payload = {
@@ -25,23 +25,24 @@ router.post("/register", (req, res) => {
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
 
-  Placeholder.add(user)
+  Users.insert(user)
     .then(saved => {
-      res
-        .status(201)
-        .json({ saved, message: "new user successfully registered" });
+      res.status(201).json(saved);
     })
     .catch(err => {
       res
         .status(500)
-        .json({ message: "could not register with provided details" });
+        .json({
+          message: "could not register with provided details",
+          error: err
+        });
     });
 });
 
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
 
-  Placeholder.findBy({ username })
+  Users.getByUsername(username)
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
