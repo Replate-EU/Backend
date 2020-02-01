@@ -78,3 +78,5 @@ router.delete("/:id", (req, res) => {
       res.status(500).json({ message: "could not delete pickup" });
     });
 });
+
+module.exports = router;
