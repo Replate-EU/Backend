@@ -62,8 +62,9 @@ router.get("/me", (req, res) => {
 
 //update pickup info at specified id
 router.put("/:id", (req, res) => {
+  const pickup = req.body;
   const id = req.params.id;
-  Pickups.update(id)
+  Pickups.update(pickup, id)
     .then(data => {
       res.status(200).json(data);
     })
