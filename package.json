@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Replate-EU/Backend#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
