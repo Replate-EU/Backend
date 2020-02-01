@@ -9,7 +9,7 @@ const createValidationMiddleware = schema =>
         await schema.validateAsync(body);
         next();
       } catch (error) {
-        next(error);
+        res.status(400).json({ error: error.message });
       }
     } else {
       res.status(400).json({ message: "Missing request body" });
