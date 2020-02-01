@@ -38,7 +38,7 @@ router.post("/register", Validate.validateRegister, (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", Validate.validateLogin, (req, res) => {
   let { username, password } = req.body;
 
   Users.getByUsername(username)

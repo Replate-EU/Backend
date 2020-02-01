@@ -56,10 +56,10 @@ const pickupSchema = joi.object({
     .required(),
   quantity: joi.number().required(),
   completed: joi.boolean(),
-  business_id: joi
-    .number()
-    .integer()
-    .required(),
+  // business_id: joi
+  //   .number()
+  //   .integer()
+  //   .required(),
   claimed_by: joi.number().integer()
 });
 
