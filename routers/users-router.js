@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const Users = require("../data/users-model");
 
+const bcrypt = require("bcryptjs");
+
 // router.get("/", (req, res) => {
 //   Placeholder.get()
 //     .then(users => {
@@ -26,6 +28,10 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const user = req.body;
+  if (user.password) {
+    const hash = bcrypt.hashSync(user.password, 12);
+    user.password = hash;
+  }
   Users.update(user, id)
     .then(data => {
       res.status(200).json(data);

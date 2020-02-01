@@ -56,7 +56,7 @@ router.get("/me", (req, res) => {
       res.status(200).json(pickups);
     })
     .catch(err => {
-      res.status(500).json(/* { message: "could not get pickups" } */ err);
+      res.status(500).json({ message: "could not get pickups" });
     });
 });
 
