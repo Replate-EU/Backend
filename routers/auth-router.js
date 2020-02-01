@@ -27,9 +27,7 @@ router.post("/register", (req, res) => {
 
   Users.insert(user)
     .then(saved => {
-      res
-        .status(201)
-        .json({ saved, message: "new user successfully registered" });
+      res.status(201).json(saved);
     })
     .catch(err => {
       res
