@@ -1,8 +1,14 @@
 const router = require("express").Router();
 
 const Users = require("../data/users-model");
+const userDetails = require("../data/user-details");
 
 const bcrypt = require("bcryptjs");
+
+const {
+  validateRegister,
+  validateUserDetails
+} = require("../middleware/validation");
 
 // router.get("/", (req, res) => {
 //   Placeholder.get()
@@ -25,7 +31,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateRegister, (req, res) => {
   const id = req.params.id;
   const user = req.body;
   if (user.password) {
@@ -41,6 +47,29 @@ router.put("/:id", (req, res) => {
     });
 });
 
+router.put("/details", validateUserDetails, async (req, res, next) => {
+  const user_id = req.decodedToken.sub;
+  const { user_type } = req.decodedToken;
+  try {
+    await userDetails.update(req.body, user_type, user_id);
+    res.status(200).json({ message: "Modified" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/details", validateUserDetails, async (req, res, next) => {
+  const { user_type } = req.decodedToken;
+  const details = req.body;
+  details.user_id = Number(req.decodedToken.sub);
+  try {
+    await userDetails.insert(details, user_type);
+    res.status(200).json({ message: "Modified" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
   Users.remove(id)
@@ -50,6 +79,17 @@ router.delete("/:id", (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "could not delete user" });
     });
+});
+
+router.delete("/details", async (req, res, next) => {
+  const { user_type } = req.decodedToken;
+  const user_id = req.decodedToken.sub;
+  try {
+    await userDetails.remove();
+    res.status(200).json({ message: "Success!" });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
