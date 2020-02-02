@@ -13,12 +13,15 @@ USER OBJECT SCHEMA
 async function getById(id) {
   //resolves to user object without password
   const user = await users()
+    //get the user object from db
     .where({ id })
     .first()
     .select("id", "username", "user_type", "contact_number");
   const user_details = await db(`${user.user_type}_accounts`)
+    //get user details
     .where({ user_id: user.id })
     .first();
+  //append user details to user object
   user.account_details = user_details;
   return user;
 }
@@ -39,9 +42,7 @@ function insert(user) {
 
 async function update(user, id) {
   //resolves to user object
-  /*   const [user_id] = await users().where({ id }).update(user)
-  return user_id */
-  const updated = await db("users")
+  await db("users")
     .where("id", id)
     .update(user);
   const updatedUser = await getById(id);

@@ -9,7 +9,7 @@ const createValidationMiddleware = schema =>
         await schema.validateAsync(body);
         next();
       } catch (error) {
-        next(error);
+        res.status(400).json({ error: error.message });
       }
     } else {
       res.status(400).json({ message: "Missing request body" });
@@ -56,10 +56,10 @@ const pickupSchema = joi.object({
     .required(),
   quantity: joi.number().required(),
   completed: joi.boolean(),
-  business_id: joi
-    .number()
-    .integer()
-    .required(),
+  // business_id: joi
+  //   .number()
+  //   .integer()
+  //   .required(),
   claimed_by: joi.number().integer()
 });
 
@@ -80,10 +80,30 @@ const volunteerDetailsSchema = joi.object({
     .required()
 });
 
+const validateUserDetails = async (req, res, next) => {
+  const body = req.body;
+  if (body) {
+    try {
+      if (req.decodedToken.user_type === "business") {
+        await businessDetailsSchema.validateAsync(body);
+        next();
+      } else {
+        await volunteerDetailsSchema.validateAsync(body);
+        next();
+      }
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  } else {
+    res.status(400).json({ message: "Missing request body" });
+  }
+};
+
 module.exports = {
   validateLogin: createValidationMiddleware(loginSchema),
   validateRegister: createValidationMiddleware(registerSchema),
   validatePickup: createValidationMiddleware(pickupSchema),
   validateBusinessDetails: createValidationMiddleware(businessDetailsSchema),
-  validateVolunteerDetails: createValidationMiddleware(volunteerDetailsSchema)
+  validateVolunteerDetails: createValidationMiddleware(volunteerDetailsSchema),
+  validateUserDetails
 };

@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const Pickups = require("../data/pickups-model");
 
+const Validate = require("../middleware/validation");
+
 //return only pickups with a status of uncompleted
 router.get("/", (req, res) => {
   Pickups.getNotCompleted()
@@ -25,7 +27,7 @@ router.get("/:id/details", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", Validate.validatePickup, (req, res) => {
   const user_id = req.decodedToken.sub;
   let pickup = req.body;
   pickup.business_id = user_id;
@@ -49,6 +51,8 @@ router.post("/", (req, res) => {
 // });
 
 //returns only pickups created by a specified user
+// claimed pickups for volunteers
+// listed pickups for businesses
 router.get("/me", (req, res) => {
   const id = req.decodedToken.sub;
   Pickups.getByUserId(id)
@@ -61,7 +65,7 @@ router.get("/me", (req, res) => {
 });
 
 //update pickup info at specified id
-router.put("/:id", (req, res) => {
+router.put("/:id", Validate.validatePickup,(req, res) => {
   const pickup = req.body;
   const id = req.params.id;
   Pickups.update(pickup, id)

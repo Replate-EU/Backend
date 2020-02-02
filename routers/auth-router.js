@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../data/users-model");
+const Validate = require("../middleware/validation");
 
 function createToken(user) {
   const payload = {
@@ -20,7 +21,7 @@ function createToken(user) {
   return token;
 }
 
-router.post("/register", (req, res) => {
+router.post("/register", Validate.validateRegister, (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
@@ -30,16 +31,14 @@ router.post("/register", (req, res) => {
       res.status(201).json(saved);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          message: "could not register with provided details",
-          error: err
-        });
+      res.status(500).json({
+        message: "could not register with provided details",
+        error: err
+      });
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", Validate.validateLogin, (req, res) => {
   let { username, password } = req.body;
 
   Users.getByUsername(username)
