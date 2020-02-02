@@ -45,12 +45,6 @@ router.post("/register", Validate.validateRegister, (req, res) => {
         });
       });
     })
-    // .then(data => {
-    //   return Users.getByUsername(user_info.username);
-    // })
-    // .then(completedUser => {
-    //   res.status(200).json(completedUser);
-    // })
     .catch(err => {
       res.status(500).json({
         message: "could not register with provided details",
