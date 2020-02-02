@@ -36,7 +36,7 @@ function getByUsername(username) {
 function insert(user) {
   //resolves to user object without password
   return users()
-    .insert(user)
+    .insert(user, "id")
     .then(([id]) => getById(id));
 }
 

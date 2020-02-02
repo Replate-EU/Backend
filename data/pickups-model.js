@@ -30,7 +30,7 @@ function getById(id) {
 function insert(pickup) {
   //resolves to new pickup object
   return pickups()
-    .insert(pickup)
+    .insert(pickup, "id")
     .then(([id]) => getById(id));
 }
 
