@@ -45,7 +45,13 @@ const registerSchema = joi.object({
     .string()
     .pattern(/^(volunteer|business)$/)
     .required(),
-  contact_number: joi.string().required()
+  contact_number: joi.string().required(),
+  name: joi
+    .string()
+    .alphanum()
+    .min(3)
+    .max(128)
+    .required()
 });
 
 const pickupSchema = joi.object({

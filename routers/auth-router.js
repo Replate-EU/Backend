@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../data/users-model");
+const UserDetails = require("../data/user-details");
 const Validate = require("../middleware/validation");
 
 function createToken(user) {
@@ -22,13 +23,27 @@ function createToken(user) {
 }
 
 router.post("/register", Validate.validateRegister, (req, res) => {
-  let user = req.body;
+  let register_info = req.body;
+  let user = {
+    username: register_info.username,
+    password: register_info.password,
+    user_type: register_info.user_type,
+    contact_number: register_info.contact_number
+  };
+  let account = {
+    name: register_info.name
+  };
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
 
   Users.insert(user)
-    .then(saved => {
-      res.status(201).json(saved);
+    .then(newUser => {
+      account.user_id = newUser.id;
+      UserDetails.insert(account, newUser.user_type).then(data => {
+        Users.getByUsername(user.username).then(completedUser => {
+          res.status(200).json(completedUser);
+        });
+      });
     })
     .catch(err => {
       res.status(500).json({
