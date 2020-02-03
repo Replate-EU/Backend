@@ -1,4 +1,5 @@
-/* const db = require("../db-config");
+const db = require("../db-config");
+const seed0 = require("../seeds/00-cleanup").seed;
 const seed1 = require("../seeds/01-users").seed;
 const seed2 = require("../seeds/02-volunteer_accounts").seed;
 const seed3 = require("../seeds/03-business_accounts").seed;
@@ -12,11 +13,15 @@ const newUser = {
   contact_number: "1-234-567-78-90"
 };
 
-beforeEach(async () => {
-  await seed1(db);
-  await seed2(db);
-  await seed3(db);
-  await seed4(db);
+beforeAll(() => {
+  const boop = Promise.all([
+    seed0(db),
+    seed1(db),
+    seed2(db),
+    seed3(db),
+    seed4(db)
+  ]);
+  return boop;
 });
 
 describe("Users-model", () => {
@@ -24,28 +29,18 @@ describe("Users-model", () => {
     it("Returns correct data for volunteer users", async () => {
       expect(await db("users")).toMatchSnapshot();
       const volunteer = await usersDb.getById(1);
-      console.log(volunteer);
       expect(volunteer).toMatchSnapshot();
     });
 
     it("Returns correct data for business users", async () => {
       const business = await usersDb.getById(2);
-      console.log(business);
       expect(business).toMatchSnapshot();
     });
   });
   describe("insert()", () => {
     it("Inserts new users correctly", async () => {
-      try {
-        const user = await usersDb.insert(newUser);
-        expect(user).toMatchOjbect({
-          ...newUser,
-          id: 3,
-          account_details: undefined
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      const user = await usersDb.insert(newUser);
+      expect(user).toMatchSnapshot();
     });
   });
   describe("getByUsername()", () => {
@@ -56,19 +51,18 @@ describe("Users-model", () => {
   });
   describe("update()", () => {
     it("Returns correct data", async () => {
-      const user = await usersDb.update(newUser, 1);
+      const user = await usersDb.update(newUser, 3);
       expect(user).toMatchSnapshot();
     });
   });
   describe("remove()", () => {
     it("Deletes correct user", async () => {
-      const userDeleted = await usersDb.remove(1);
+      const userDeleted = await usersDb.remove(3);
       expect(userDeleted).toBe(1);
       const checkForDeleted = await db("users")
-        .where("id", 1)
+        .where("id", 3)
         .first();
       expect(checkForDeleted).not.toBeDefined();
     });
   });
 });
- */
