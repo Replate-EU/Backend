@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Users-model getById Returns correct data for business users 1`] = `
+Object {
+  "account_details": Object {
+    "address": "1 Doughnut St.",
+    "id": 1,
+    "name": "Local Doughnuts",
+    "user_id": 2,
+  },
+  "contact_number": "+4-408-048-99-16",
+  "id": 2,
+  "user_type": "business",
+  "username": "fooddotcom",
+}
+`;
+
+exports[`Users-model getById Returns correct data for volunteer users 1`] = `
+Array [
+  Object {
+    "contact_number": "+4-408-048-99-16",
+    "id": 1,
+    "password": "$2a$12$ZQwXBTq7UMgmugpy5zz9SOdG4JvEa3Bj5MofQl9fIMFb1wTSGU9.C",
+    "user_type": "volunteer",
+    "username": "imhelping",
+  },
+  Object {
+    "contact_number": "+4-408-048-99-16",
+    "id": 2,
+    "password": "$2a$12$ZQwXBTq7UMgmugpy5zz9SOdG4JvEa3Bj5MofQl9fIMFb1wTSGU9.C",
+    "user_type": "business",
+    "username": "fooddotcom",
+  },
+]
+`;
+
+exports[`Users-model getById Returns correct data for volunteer users 2`] = `
+Object {
+  "account_details": Object {
+    "id": 1,
+    "name": "Sunny McGoodperson",
+    "user_id": 1,
+  },
+  "contact_number": "+4-408-048-99-16",
+  "id": 1,
+  "user_type": "volunteer",
+  "username": "imhelping",
+}
+`;
+
+exports[`Users-model getByUsername() Returns correct data 1`] = `
+Object {
+  "contact_number": "+4-408-048-99-16",
+  "id": 1,
+  "password": "$2a$12$ZQwXBTq7UMgmugpy5zz9SOdG4JvEa3Bj5MofQl9fIMFb1wTSGU9.C",
+  "user_type": "volunteer",
+  "username": "imhelping",
+}
+`;
+
+exports[`Users-model update() Returns correct data 1`] = `
+Object {
+  "account_details": Object {
+    "id": 1,
+    "name": "Sunny McGoodperson",
+    "user_id": 1,
+  },
+  "contact_number": "1-234-567-78-90",
+  "id": 1,
+  "user_type": "volunteer",
+  "username": "darragh",
+}
+`;
