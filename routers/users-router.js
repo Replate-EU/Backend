@@ -88,7 +88,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.delete("/details", async (req, res, next) => {
+router.delete("/remove/details", async (req, res, next) => {
   const { user_type } = req.decodedToken;
   const user_id = req.decodedToken.sub;
   try {
