@@ -5,6 +5,8 @@ const userDetails = require("../data/user-details");
 
 const bcrypt = require("bcryptjs");
 
+const checkToken = require("../middleware/checkToken");
+
 const {
   validateRegister,
   validateUserDetails
@@ -58,17 +60,22 @@ router.put("/account/details", validateUserDetails, async (req, res, next) => {
   }
 });
 
-router.post("/details", validateUserDetails, async (req, res, next) => {
-  const { user_type } = req.decodedToken;
-  const details = req.body;
-  details.user_id = Number(req.decodedToken.sub);
-  try {
-    await userDetails.insert(details, user_type);
-    res.status(200).json({ message: "Modified" });
-  } catch (error) {
-    next(error);
+router.post(
+  "/details",
+  checkToken,
+  // validateUserDetails,
+  async (req, res, next) => {
+    const { user_type } = req.decodedToken;
+    const details = req.body;
+    details.user_id = req.decodedToken.sub;
+    try {
+      await userDetails.insert(details, user_type);
+      res.status(200).json({ message: "Modified" });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
