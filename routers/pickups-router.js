@@ -4,8 +4,8 @@ const Pickups = require("../data/pickups-model");
 
 const Validate = require("../middleware/validation");
 
-//return only pickups with a status of uncompleted
 router.get("/", (req, res) => {
+  //return only pickups with a status of uncompleted
   Pickups.getNotCompleted()
     .then(pickups => {
       res.status(200).json(pickups);
@@ -15,8 +15,8 @@ router.get("/", (req, res) => {
     });
 });
 
-//returns pickup where({id})
 router.get("/:id/details", (req, res) => {
+  //returns pickup where({id})
   const id = req.params.id;
   Pickups.getById(id)
     .then(pickup => {
@@ -40,20 +40,10 @@ router.post("/", Validate.validatePickup, (req, res) => {
     });
 });
 
-// router.get("/available", (req, res) => {
-//   Placeholder.findNotCompleted()
-//     .then(pickups => {
-//       res.status(200).json(pickups);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: "could not get pickups" });
-//     });
-// });
-
-//returns only pickups created by a specified user
-// claimed pickups for volunteers
-// listed pickups for businesses
 router.get("/me", (req, res) => {
+  //returns only pickups created by a specified user
+  // claimed pickups for volunteers
+  // listed pickups for businesses
   const id = req.decodedToken.sub;
   Pickups.getByUserId(id)
     .then(pickups => {
@@ -64,8 +54,8 @@ router.get("/me", (req, res) => {
     });
 });
 
-//update pickup info at specified id
-router.put("/:id", Validate.validatePickup,(req, res) => {
+router.put("/:id", Validate.validatePickup, (req, res) => {
+  //update pickup info at specified id
   const pickup = req.body;
   const id = req.params.id;
   Pickups.update(pickup, id)
@@ -77,8 +67,26 @@ router.put("/:id", Validate.validatePickup,(req, res) => {
     });
 });
 
-//delete pickup at specified id
+router.patch("/:id", async (req, res, next) => {
+  //checks id user is listed as claimed_by
+  //if so changes completed value to req.body.completed
+  const { completed } = req.body;
+  const pickup_id = req.params.id;
+  try {
+    const pickup = await Pickups.getById(req.decodedToken.sub);
+    if (pickup.claimed_by === req.decodedToken.sub) {
+      await Pickups.update({ completed }, pickup_id);
+      res.status(200).json({ message: "Changed!" });
+    } else {
+      res.status(401).end();
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete("/:id", (req, res) => {
+  //delete pickup at specified id
   const id = req.params.id;
   Pickups.remove(id)
     .then(deleted => {
