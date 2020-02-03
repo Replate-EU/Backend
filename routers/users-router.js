@@ -5,6 +5,8 @@ const userDetails = require("../data/user-details");
 
 const bcrypt = require("bcryptjs");
 
+const checkToken = require("../middleware/checkToken");
+
 const {
   validateRegister,
   validateUserDetails
@@ -31,7 +33,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", validateRegister, (req, res) => {
+router.put("/:id", (req, res) => {
   const id = req.params.id;
   const user = req.body;
   if (user.password) {
@@ -47,7 +49,7 @@ router.put("/:id", validateRegister, (req, res) => {
     });
 });
 
-router.put("/details", validateUserDetails, async (req, res, next) => {
+router.put("/account/details", validateUserDetails, async (req, res, next) => {
   const user_id = req.decodedToken.sub;
   const { user_type } = req.decodedToken;
   try {
@@ -58,17 +60,22 @@ router.put("/details", validateUserDetails, async (req, res, next) => {
   }
 });
 
-router.post("/details", validateUserDetails, async (req, res, next) => {
-  const { user_type } = req.decodedToken;
-  const details = req.body;
-  details.user_id = Number(req.decodedToken.sub);
-  try {
-    await userDetails.insert(details, user_type);
-    res.status(200).json({ message: "Modified" });
-  } catch (error) {
-    next(error);
+router.post(
+  "/details",
+  checkToken,
+  // validateUserDetails,
+  async (req, res, next) => {
+    const { user_type } = req.decodedToken;
+    const details = req.body;
+    details.user_id = req.decodedToken.sub;
+    try {
+      await userDetails.insert(details, user_type);
+      res.status(200).json({ message: "Modified" });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
@@ -81,11 +88,11 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.delete("/details", async (req, res, next) => {
+router.delete("/remove/details", async (req, res, next) => {
   const { user_type } = req.decodedToken;
   const user_id = req.decodedToken.sub;
   try {
-    await userDetails.remove();
+    await userDetails.remove(user_type, user_id);
     res.status(200).json({ message: "Success!" });
   } catch (error) {
     next(error);
