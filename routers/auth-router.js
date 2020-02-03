@@ -41,7 +41,7 @@ router.post("/register", Validate.validateRegister, (req, res) => {
       account.user_id = newUser.id;
       UserDetails.insert(account, newUser.user_type).then(data => {
         Users.getByUsername(user.username).then(completedUser => {
-          res.status(200).json(completedUser);
+          res.status(201).json(completedUser);
         });
       });
     })
