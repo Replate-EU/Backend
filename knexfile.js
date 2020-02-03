@@ -42,12 +42,12 @@ module.exports = {
   production: {
     client: "pg",
     connection: process.env.DATABASE_URL,
-    ssl: true,
-    // pool: {
-    //   afterCreate: (conn, done) => {
-    //     conn.run("PRAGMA foreign_keys = ON", done);
-    //   }
-    // },
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run("PRAGMA foreign_keys = ON", done);
+      }
+    },
     migrations: {
       directory: "./data/migrations"
     },
