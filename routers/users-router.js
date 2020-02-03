@@ -31,7 +31,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", validateRegister, (req, res) => {
+router.put("/:id", (req, res) => {
   const id = req.params.id;
   const user = req.body;
   if (user.password) {
