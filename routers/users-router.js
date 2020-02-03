@@ -92,7 +92,7 @@ router.delete("/details", async (req, res, next) => {
   const { user_type } = req.decodedToken;
   const user_id = req.decodedToken.sub;
   try {
-    await userDetails.remove();
+    await userDetails.remove(user_type, user_id);
     res.status(200).json({ message: "Success!" });
   } catch (error) {
     next(error);
