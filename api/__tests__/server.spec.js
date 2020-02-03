@@ -31,7 +31,7 @@ describe("server.js module", () => {
     it("returns 200", () => {
       return request(server)
         .post("/api/auth/login")
-        .send({ username: "fooddotcom", password: "12345" })
+        .send({ username: "imhelping", password: "12345" })
         .expect(200)
         .expect(res => {
           token = res.body.token;
@@ -62,13 +62,51 @@ describe("server.js module", () => {
         .put("/api/users/1")
         .set("Authorization", token)
         .send({
-          username: "imhelping",
+          username: "fooddotcom",
           password: "123456",
           user_type: "volunteer",
           contact_number: "12312334241223",
           name: "blooper"
         })
         .expect(res => console.log(res.body));
+    });
+    it("DELETE /:id returns 200 if Authorization is correct", () => {
+      return request(server)
+        .del("/api/users/1")
+        .set("Authorization", token)
+        .expect(200);
+    });
+  });
+  describe("/api/pickups ROUTES", () => {
+    describe("GET Methods", () => {
+      it("GET /", () => {
+        return request(server)
+          .get("/api/pickups")
+          .set("Authorization", token)
+          .expect(200);
+      });
+      it("GET /:id/details", () => {
+        return request(server)
+          .get("/api/pickups/1/details")
+          .set("Authorization", token)
+          .expect(200);
+      });
+      it("GET /me", () => {
+        return request(server)
+          .get("/api/pickups/me")
+          .set("Authorization", token)
+          .expect(200);
+      });
+    });
+
+    describe("PATCH Methods", () => {
+      it("returns 500", () => {
+        return request(server)
+          .patch("/api/pickups/1")
+          .set("Authorization", token)
+          .send({ completed: true })
+          .expect(500);
+      });
     });
   });
 });
