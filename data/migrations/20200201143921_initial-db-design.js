@@ -55,7 +55,7 @@ exports.up = function(knex) {
         .references("id")
         .inTable("users")
         .onUpdate("CASCADE")
-        .onDelete("SET NULL");
+        .onDelete("CASCADE");
     });
 };
 

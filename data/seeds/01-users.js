@@ -1,4 +1,4 @@
-const hashedTestPassword = require('bcryptjs').hashSync('12345', 12);
+const hashedTestPassword = "$2a$12$ZQwXBTq7UMgmugpy5zz9SOdG4JvEa3Bj5MofQl9fIMFb1wTSGU9.C";
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
