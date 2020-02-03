@@ -51,7 +51,12 @@ const registerSchema = joi.object({
     .alphanum()
     .min(3)
     .max(128)
-    .required()
+    .required(),
+  address: joi
+    .string()
+    .alphanum()
+    .min(3)
+    .max(128)
 });
 
 const pickupSchema = joi.object({
