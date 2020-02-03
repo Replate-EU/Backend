@@ -47,7 +47,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.put("/details", validateUserDetails, async (req, res, next) => {
+router.put("/account/details", validateUserDetails, async (req, res, next) => {
   const user_id = req.decodedToken.sub;
   const { user_type } = req.decodedToken;
   try {
