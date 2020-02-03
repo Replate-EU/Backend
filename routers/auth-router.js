@@ -30,9 +30,17 @@ router.post("/register", Validate.validateRegister, (req, res) => {
     user_type: register_info.user_type,
     contact_number: register_info.contact_number
   };
-  let account = {
-    name: register_info.name
-  };
+  let account = {};
+  if (register_info.user_type == "volunteer") {
+    account = {
+      name: register_info.name
+    };
+  } else {
+    account = {
+      name: register_info.name,
+      address: register_info.address
+    };
+  }
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
 
