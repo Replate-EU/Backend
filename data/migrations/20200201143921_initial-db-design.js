@@ -38,7 +38,7 @@ exports.up = function(knex) {
     .createTable("pickups", pickups => {
       pickups.increments();
       pickups.text("food_type").notNullable();
-      pickups.integer("pickup_time").unsigned().notNullable();
+      pickups.bigInteger("pickup_time").unsigned().notNullable();
       pickups.decimal("quantity").notNullable();
       pickups.boolean("completed").defaultTo(false);
       pickups
