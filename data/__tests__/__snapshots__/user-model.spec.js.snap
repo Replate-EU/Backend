@@ -58,16 +58,22 @@ Object {
 }
 `;
 
-exports[`Users-model update() Returns correct data 1`] = `
+exports[`Users-model insert() Inserts new users correctly 1`] = `
 Object {
-  "account_details": Object {
-    "id": 1,
-    "name": "Sunny McGoodperson",
-    "user_id": 1,
-  },
+  "account_details": undefined,
   "contact_number": "1-234-567-78-90",
-  "id": 1,
+  "id": 3,
   "user_type": "volunteer",
   "username": "darragh",
+}
+`;
+
+exports[`Users-model update() Returns correct data 1`] = `
+Object {
+  "account_details": undefined,
+  "contact_number": "1-234-567-78-90",
+  "id": 3,
+  "user_type": "volunteer",
+  "username": "Gerard",
 }
 `;
