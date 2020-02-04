@@ -22,8 +22,8 @@ const {
 //     });
 // });
 
-router.get("/:id", (req, res) => {
-  const id = req.params.id;
+router.get("/", (req, res) => {
+  const id = req.decodedToken.sub;
   Users.getById(id)
     .then(user => {
       res.status(200).json(user);
