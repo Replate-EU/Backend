@@ -2,7 +2,8 @@ const request = require("supertest");
 const server = require("../server");
 
 describe("server.js module", () => {
-  let token = null;
+  let businessToken = null;
+  let volunteerToken = null;
   describe("/api", () => {
     it("returns 200", () => {
       return request(server)
@@ -28,13 +29,23 @@ describe("server.js module", () => {
     });
   });
   describe("/api/auth/login", () => {
-    it("returns 200", () => {
+    it("returns 200 for business user", () => {
+      return request(server)
+        .post("/api/auth/login")
+        .send({ username: "fooddotcom", password: "12345" })
+        .expect(200)
+        .expect(res => {
+          businessToken = res.body.token;
+          expect(res.body.token).toBeDefined();
+        });
+    });
+    it("returns 200 for volunteer user", () => {
       return request(server)
         .post("/api/auth/login")
         .send({ username: "imhelping", password: "12345" })
         .expect(200)
         .expect(res => {
-          token = res.body.token;
+          volunteerToken = res.body.token;
           expect(res.body.token).toBeDefined();
         });
     });
@@ -54,15 +65,15 @@ describe("server.js module", () => {
     it("GET /:id returns 200 if Authorization is correct", () => {
       return request(server)
         .get("/api/users/1")
-        .set("Authorization", token)
+        .set("Authorization", volunteerToken)
         .expect(200);
     });
     it("PUT /:id returns 200 if Authorization is correct", () => {
       return request(server)
         .put("/api/users/1")
-        .set("Authorization", token)
+        .set("Authorization", volunteerToken)
         .send({
-          username: "fooddotcom",
+          username: "zorbathegreek",
           password: "123456",
           user_type: "volunteer",
           contact_number: "12312334241223",
@@ -73,7 +84,7 @@ describe("server.js module", () => {
     it("DELETE /:id returns 200 if Authorization is correct", () => {
       return request(server)
         .del("/api/users/1")
-        .set("Authorization", token)
+        .set("Authorization", volunteerToken)
         .expect(200);
     });
   });
@@ -82,30 +93,30 @@ describe("server.js module", () => {
       it("GET /", () => {
         return request(server)
           .get("/api/pickups")
-          .set("Authorization", token)
+          .set("Authorization", volunteerToken)
           .expect(200);
       });
       it("GET /:id/details", () => {
         return request(server)
           .get("/api/pickups/1/details")
-          .set("Authorization", token)
+          .set("Authorization", volunteerToken)
           .expect(200);
       });
       it("GET /me", () => {
         return request(server)
           .get("/api/pickups/me")
-          .set("Authorization", token)
+          .set("Authorization", volunteerToken)
           .expect(200);
       });
     });
 
     describe("PATCH Methods", () => {
-      it("returns 500", () => {
+      it("PATCH /api/pickups/:id returns 200", () => {
         return request(server)
           .patch("/api/pickups/1")
-          .set("Authorization", token)
+          .set("Authorization", volunteerToken)
           .send({ completed: true })
-          .expect(500);
+          .expect(res=>console.log(res.body));
       });
     });
   });

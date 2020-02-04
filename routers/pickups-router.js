@@ -81,7 +81,7 @@ router.patch("/:id", async (req, res, next) => {
       res.status(401).end();
     }
   } catch (error) {
-    next(error);
+    res.status(500).json(error);
   }
 });
 
