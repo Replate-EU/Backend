@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Updates pickups correctly updates the right pickup 1`] = `
+Array [
+  Object {
+    "business_id": 2,
+    "claimed_by": 1,
+    "completed": 0,
+    "food_type": "doughnuts",
+    "id": 1,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": 1,
+    "completed": 1,
+    "food_type": "fries",
+    "id": 2,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "chicken",
+    "id": 3,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "watermelon",
+    "id": 4,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "cookies",
+    "id": 5,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+]
+`;
+
+exports[`Updates pickups correctly updates the right pickup 2`] = `
+Array [
+  Object {
+    "business_id": 2,
+    "claimed_by": 1,
+    "completed": 1,
+    "food_type": "doughnuts",
+    "id": 1,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": 1,
+    "completed": 1,
+    "food_type": "fries",
+    "id": 2,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "chicken",
+    "id": 3,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "watermelon",
+    "id": 4,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+  Object {
+    "business_id": 2,
+    "claimed_by": null,
+    "completed": 0,
+    "food_type": "cookies",
+    "id": 5,
+    "pickup_time": 1580553507239,
+    "quantity": 0.5,
+  },
+]
+`;

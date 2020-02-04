@@ -51,6 +51,7 @@ describe("Users-model", () => {
   });
   describe("update()", () => {
     it("Returns correct data", async () => {
+      newUser.username = 'Gerard'
       const user = await usersDb.update(newUser, 3);
       expect(user).toMatchSnapshot();
     });
