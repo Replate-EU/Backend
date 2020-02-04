@@ -33,8 +33,8 @@ router.get("/", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
-  const id = req.params.id;
+router.put("/", (req, res) => {
+  const id = req.decodedToken.sub;
   const user = req.body;
   if (user.password) {
     const hash = bcrypt.hashSync(user.password, 12);
