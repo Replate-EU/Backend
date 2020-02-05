@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const checkToken = require("../middleware/checkToken");
 const Users = require("../data/users-model");
 const UserDetails = require("../data/user-details");
 const Validate = require("../middleware/validation");
@@ -59,6 +59,18 @@ router.post("/register", Validate.validateRegister, (req, res) => {
         error: err
       });
     });
+});
+
+router.get("/", checkToken, async (req, res, next) => {
+  try {
+    const user_id = req.decodedToken.sub;
+    const user = await Users.getById(user_id);
+    res.status(200).json({
+      ...user
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/login", Validate.validateLogin, (req, res) => {
