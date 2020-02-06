@@ -11,8 +11,8 @@ const server = express();
 configureMiddleware(server);
 
 server.use("/api", apiRouter);
-server.use((err, req, res, next) => {
+/* server.use((err, req, res, next) => {
   res.status(500).json(err);
-});
+}); */
 
 module.exports = server;

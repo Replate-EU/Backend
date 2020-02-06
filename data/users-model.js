@@ -26,11 +26,23 @@ async function getById(id) {
   return user;
 }
 
-function getByUsername(username) {
+async function getByUsername(username) {
   //resolves to user object
-  return users()
+  const user = await users()
+    //get the user object from db
     .where({ username })
     .first();
+  console.log(user);
+
+  const user_details = await db(`${user.user_type}_accounts`)
+    //get user details
+    .where({ user_id: user.id })
+    .first();
+  console.log(user_details);
+
+  //append user details to user object
+  user.account_details = user_details;
+  return user;
 }
 
 function insert(user) {

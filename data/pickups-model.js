@@ -6,7 +6,7 @@ const pickups = () => db("pickups");
 function getNotCompleted() {
   //resolves to array of pickups where completed = false
   return pickups()
-    .where({ completed: 0 })
+    .where({ completed: 0, claimed_by: null })
     .then(pickups => pickups.map(pickupConvert));
 }
 
