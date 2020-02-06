@@ -71,7 +71,7 @@ const pickupSchema = joi.object({
   //   .number()
   //   .integer()
   //   .required(),
-  claimed_by: joi.number().integer()
+  claimed_by: joi.allow(null)
 });
 
 const businessDetailsSchema = joi.object({
