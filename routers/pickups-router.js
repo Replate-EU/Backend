@@ -36,7 +36,7 @@ router.post("/", Validate.validatePickup, (req, res) => {
       res.status(200).json(saved);
     })
     .catch(err => {
-      res.status(500).json({ message: "could not create pickup" });
+      res.status(500).json({ message: "could not create pickup", error: err });
     });
 });
 
